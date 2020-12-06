@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, useState } from 'react';
 import './App.css';
-import Calendar from './Components/Calendar';
+import CalendarView from './Components/CalendarView';
 import Home from './Components/Home';
 import Navbar from './Components/Navbar';
 import Profile from './Components/Profile';
@@ -14,10 +14,10 @@ const App : FC = (): ReactElement => {
   }
 
   return (
-    <div className="App">
+    <div className="App container">
       <Navbar selectedItem={selectedNavbarItem} onClick={handleClick}  />
         {selectedNavbarItem === NavbarConstants.home && <Home /> }
-        {selectedNavbarItem === NavbarConstants.calendar && <Calendar /> }
+        {selectedNavbarItem === NavbarConstants.calendar && <CalendarView /> }
         {selectedNavbarItem === NavbarConstants.myProfile && <Profile /> }
 
     </div>
