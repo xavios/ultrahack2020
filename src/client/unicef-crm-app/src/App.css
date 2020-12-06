@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+.form-group.required .control-label:after {
+  color: #d00;
+  content: "*";
+  margin-left: 8px;
+  top: 7px;
+}
+
+.regContainer {
+  max-width: 500px;
+  margin-left: 0px;
+  text-align: left;
+}

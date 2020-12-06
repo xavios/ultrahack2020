@@ -4,6 +4,7 @@ import CalendarView from './Components/CalendarView';
 import Home from './Components/Home';
 import Navbar from './Components/Navbar';
 import Profile from './Components/Profile';
+import Registration from './Components/Registration'
 import { NavbarConstants } from './NavbarConstants';
 
 const App : FC = (): ReactElement => {    
@@ -19,6 +20,7 @@ const App : FC = (): ReactElement => {
         {selectedNavbarItem === NavbarConstants.home && <Home /> }
         {selectedNavbarItem === NavbarConstants.calendar && <CalendarView /> }
         {selectedNavbarItem === NavbarConstants.myProfile && <Profile /> }
+        {selectedNavbarItem === NavbarConstants.registration && <Registration /> }
 
     </div>
   );
