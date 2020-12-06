@@ -32,13 +32,35 @@ export default class CalendarView extends React.Component<ICalendarViewProps, IC
     render() {     
         if (this.state.selectedEvent) {
             return (<EventInfo event={this.state.selectedEvent} onBackClick={this.onBackClick} />);
-        } else {
-            return (<FullCalendar
-                plugins={[ dayGridPlugin, interactionPlugin ]}
-                initialView="dayGridMonth"
-                eventClick={this.onEventClick}
-                events={this.eventApiClient.getEvents()} />);
-        }
+        } 
+
+        return (<FullCalendar
+            plugins={[ dayGridPlugin, interactionPlugin ]}
+            customButtons={{
+                addEventButton: {
+                    text: 'Add new Event',
+                    click: this.onAddEventClick,
+                },
+            }} 
+            headerToolbar={{
+                left: 'prev,next today',
+                center: 'title',
+                right: 'addEventButton'
+            }}
+            initialView="dayGridMonth"
+            eventClick={this.onEventClick}           
+            events={this.eventApiClient.getEvents()} />);
+        
+    }
+
+    onAddEventClick = () => {
+        this.setState( { selectedEvent: {
+            id: "",
+            title: "New Event",
+            start: "2020.12.06.",
+            end: "2020.12.07.",
+            allDay: true
+        }})
     }
 
     onBackClick = () => {

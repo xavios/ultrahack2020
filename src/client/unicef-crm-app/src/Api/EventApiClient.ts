@@ -3,8 +3,8 @@ import IEventApiClient from "./IEventApiClient";
 
 
 export default class EventApiClient implements IEventApiClient {
-    public addEvent(title: string, start: Date, end: Date): void {
-        
+    public addEvent(event: CalendarEvent): void {
+        console.log("TODO add event via API");
     }
 
     public getEvents() : CalendarEvent[] {
