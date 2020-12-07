@@ -1,5 +1,5 @@
   
-import { Response, Request } from 'express'
+import { Response, Request } from 'express';
 import User, { IUser } from '../models/user.model';
 
 export default class UserController {
@@ -28,7 +28,7 @@ export default class UserController {
 
     public async GetUserById(req: Request, res: Response): Promise<void> {
         try {
-            const user: IUser = await User.findById(req.body.id)
+            const user: IUser = await User.findById(req.params.id)
             if (!user) {
                 res.status(404).send('No user found');
             }
@@ -52,7 +52,7 @@ export default class UserController {
         
     public async DeleteUserById(req: Request, res: Response): Promise<void> {
         try {
-            const deletedUser: IUser = await User.findByIdAndRemove(req.body.id)
+            const deletedUser: IUser = await User.findByIdAndRemove(req.params.id)
             if (!deletedUser) {
                 res.status(404).send('No user found');
             }

@@ -3,7 +3,8 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IRegistration extends Document {
     _id: Schema.Types.ObjectId;
     userId: Schema.Types.ObjectId;
-    eventId: Schema.Types.ObjectId,
+    eventId: Schema.Types.ObjectId;
+    confirmed: Boolean;
 }
 
 const RegistrationSchema: Schema = new Schema({
