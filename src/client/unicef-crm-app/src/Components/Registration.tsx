@@ -13,18 +13,42 @@ export default class Registration extends React.Component {
     super(props);
     this.state = new Volunteer();
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   handleSubmit(event: any) {
-    console.log("TODO: Someone registered!");
+    console.log(this.state);
     event.preventDefault();
   }
+
+  handleInputChange = (event: any) => {
+    let val = event.target.value;
+    let currentVolunteer: any = this.state;
+    switch (event.target.id) {
+      case "firstName":
+        currentVolunteer.FirstName = val;
+        break;
+      case "lastName":
+        currentVolunteer.LastName = val;
+        break;
+      case "email":
+        currentVolunteer.Email = val;
+        break;
+      case "mobilePhone":
+        currentVolunteer.MobilePhone = val;
+        break;
+      case "primaryMethodOfContact":
+        currentVolunteer.PrimaryMethodOfContact = val;
+        break;
+    }
+    this.setState(currentVolunteer);
+  };
 
   render() {
     return (
       <div className="container regContainer">
         <h3>Apply as a volunteer to Unicef Hungary</h3>
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <div className="form-group required">
             <label htmlFor="firstName" className="control-label">
               First Name
@@ -34,6 +58,7 @@ export default class Registration extends React.Component {
               className="form-control"
               id="firstName"
               required
+              onChange={this.handleInputChange}
             ></input>
           </div>
 
@@ -46,6 +71,7 @@ export default class Registration extends React.Component {
               className="form-control"
               id="lastName"
               required
+              onChange={this.handleInputChange}
             ></input>
           </div>
 
@@ -58,6 +84,7 @@ export default class Registration extends React.Component {
               className="form-control"
               id="email"
               required
+              onChange={this.handleInputChange}
             ></input>
           </div>
 
@@ -70,6 +97,7 @@ export default class Registration extends React.Component {
               className="form-control"
               id="mobilePhone"
               required
+              onChange={this.handleInputChange}
             ></input>
           </div>
 
@@ -77,7 +105,11 @@ export default class Registration extends React.Component {
             <label htmlFor="primaryMethodOfContact">
               Primary method of contact
             </label>
-            <select className="form-control" id="primaryMethodOfContact">
+            <select
+              className="form-control"
+              id="primaryMethodOfContact"
+              onChange={this.handleInputChange}
+            >
               <option>Email</option>
               <option>Phone</option>
               <option>FaceBook (Messenger)</option>
@@ -90,6 +122,7 @@ export default class Registration extends React.Component {
               type="checkbox"
               className="form-check-input"
               id="exampleCheck1"
+              required
             ></input>
             <label className="form-check-label" htmlFor="exampleCheck1">
               Do you accept our terms & conditions?
