@@ -2,6 +2,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IEvent extends Document {
+    _id: Schema.Types.ObjectId;
     name: string;
     status: string,
     date: Date,
@@ -10,13 +11,16 @@ export interface IEvent extends Document {
     capacity?: number,
     description?: string,
     requiredSkills?: string,
-    recommendedSkills?: string,
+    recommendedSkills?: string
+}
+
+export interface IJoinUser extends Document {
+    confirmed: Boolean;
 }
 
 export enum Status { 
     openForRegistration = 'openForRegistration',
-    closed = 'closed',
-    //TODO: extend with possible options
+    closed = 'closed'
 }
 
 const EventSchema: Schema = new Schema({
@@ -28,10 +32,7 @@ const EventSchema: Schema = new Schema({
     capacity: { type: Number },
     description: { type: String },
     requiredSkills: { type: String },
-    recommendedSkills: { type: String },
-    confirmedVolunteers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    registeredVolunteers: [{ type: Schema.Types.ObjectId, ref: 'User' }]
-    //TODO: join table?
+    recommendedSkills: { type: String }
 });
 
 export default mongoose.model<IEvent>('Event', EventSchema);

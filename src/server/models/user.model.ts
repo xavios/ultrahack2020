@@ -55,8 +55,7 @@ const UserSchema: Schema = new Schema({
     photo: {
         image: { type: Buffer },
         contentType: {type: String }
-    },
-    events: [{ type: Schema.Types.ObjectId, ref: 'Event' }]
+    }
 });
 
 export default mongoose.model<IUser>('User', UserSchema);

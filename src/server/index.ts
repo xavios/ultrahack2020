@@ -3,6 +3,7 @@ import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import userRoutes from './routes/user.routes';
 import eventRoutes from './routes/event.routes';
+import registrationRoutes from './routes/registration.routes';
 import connect from './connect';
 import bodyParser from 'body-parser';
 
@@ -19,6 +20,7 @@ app.use(bodyParser.json())
 app.use(cors());
 app.use('/users', userRoutes);
 app.use('/events', eventRoutes);
+app.use('/registrations', registrationRoutes);
 
 app.get('/', (req: Request, res: Response) =>
   res.send('Welcome to the unicef app')
