@@ -5,21 +5,21 @@ import { EventClickArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
-import IEventApiClient from "../Api/IEventApiClient";
 import EventApiClient from "../Api/EventApiClient";
-import { CalendarEvent } from "../Models/CalendarEvent";
 import EventInfo from "./EventInfo";
+import { IEvent } from "../Models/IEvent";
+import { EventStatus } from "../Models/EventStatus";
 
 interface ICalendarViewProps {
 
 }
 
 interface ICalendarViewState {
-    selectedEvent?: CalendarEvent;
+    selectedEvent?: IEvent;
 }
 
 export default class CalendarView extends React.Component<ICalendarViewProps, ICalendarViewState> {
-    private eventApiClient : IEventApiClient;
+    private eventApiClient : EventApiClient;
 
     constructor(props: any) {
         super(props);
@@ -55,11 +55,11 @@ export default class CalendarView extends React.Component<ICalendarViewProps, IC
 
     onAddEventClick = () => {
         this.setState( { selectedEvent: {
-            id: "",
-            title: "New Event",
-            start: "2020.12.06.",
-            end: "2020.12.07.",
-            allDay: true
+            id: undefined,
+            name: "New Event",
+            date: new Date("2020.12.06."),
+            status: EventStatus.openForRegistration,
+            location: "Budapest"
         }})
     }
 
@@ -68,12 +68,8 @@ export default class CalendarView extends React.Component<ICalendarViewProps, IC
     }
 
     onEventClick = (arg: EventClickArg) => {
-        this.setState({ selectedEvent: {
-            id: arg.event.id,
-            title: arg.event.title,
-            start: arg.event.startStr,
-            end: arg.event.endStr,
-            allDay: arg.event.allDay
-        } });
+        const eventId = parseInt(arg.event.id);
+        const event : IEvent = this.eventApiClient.get(eventId);
+        this.setState({ selectedEvent: event });
     }
 }

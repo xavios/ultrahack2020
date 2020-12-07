@@ -1,4 +1,4 @@
-export type CalendarEvent = {
+export type EventViewModel = {
     id: string;
     title?: string;
     start?: string;

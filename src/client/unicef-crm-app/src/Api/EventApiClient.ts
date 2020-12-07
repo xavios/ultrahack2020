@@ -1,13 +1,34 @@
-import { CalendarEvent }  from "../Models/CalendarEvent";
-import IEventApiClient from "./IEventApiClient";
+import { EventViewModel }  from "../Models/EventViewModel";
+import { IEvent } from "../Models/IEvent";
 
+export default class EventApiClient {
+    private baseUrl = "http://localhost:4000";
 
-export default class EventApiClient implements IEventApiClient {
-    public addEvent(event: CalendarEvent): void {
-        console.log("TODO add event via API");
+    public async addEvent(event: IEvent): Promise<void> {
+        const response = await fetch(
+            `${this.baseUrl}/createevent`, {
+                method: 'POST',
+                headers:  {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(event)
+            }
+        );
+
+        console.log(response);
+        if (response.status !== 201) {
+            
+        }
     }
 
-    public getEvents() : CalendarEvent[] {
+    public get(id: number) : IEvent {
+        return {
+            id: id,
+            name: "event from db"        
+        }
+    }
+
+    public getEvents() : EventViewModel[] {
         return [
             {
                 id: '999',
