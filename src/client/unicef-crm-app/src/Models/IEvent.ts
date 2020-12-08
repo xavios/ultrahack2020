@@ -1,7 +1,7 @@
 import { EventStatus } from "./EventStatus";
 
 export interface IEvent {
-    id?: string;
+    _id?: string;
     name?: string;
     status: EventStatus,
     date?: Date,

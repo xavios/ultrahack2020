@@ -1,4 +1,3 @@
-import { EventStatus } from "../Models/EventStatus";
 import { IEvent } from "../Models/IEvent";
 import Configuration from "./Configuration";
 
@@ -13,15 +12,19 @@ export default class EventApiClient {
                 body: JSON.stringify(event)
             }
         );
-
-        console.log(response);
     }
 
-    public get(id: string) : IEvent {
-        return {
-            id: id,
-            name: "event from db",
-            status: EventStatus.openForRegistration     
-        }
+    public async get(id: string) : Promise<IEvent> {
+        const response = await fetch(
+            `${Configuration.serviceBaseUrl}/events/getevent/${id}`, {
+                method: 'GET',
+                headers:  {
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+
+        const responseJson =  await response.json();
+        return responseJson.event;
     }
 }

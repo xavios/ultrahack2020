@@ -80,8 +80,8 @@ export default class CalendarView extends React.Component<ICalendarViewProps, IC
     }
 
     onAddEventClick = () => {
-        this.setState( { selectedEvent: {
-            id: undefined,
+        this.setState({ selectedEvent: {
+            _id: undefined,
             name: "New Event",
             date: new Date("2020.12.06."),
             status: EventStatus.openForRegistration,
@@ -95,12 +95,11 @@ export default class CalendarView extends React.Component<ICalendarViewProps, IC
 
     onBackClick = () => {
         this.componentDidMount();
-        //this.setState({ selectedEvent: undefined });
     }
 
     onEventClick = async (arg: EventClickArg) => {
         const eventId = arg.event.id;
-        const event : IEvent = this.eventApiClient.get(eventId);
+        const event : IEvent = await this.eventApiClient.get(eventId);
         this.setState({ selectedEvent: event });
     }
 }
