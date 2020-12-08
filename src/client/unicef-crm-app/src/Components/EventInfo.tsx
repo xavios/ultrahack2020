@@ -2,6 +2,9 @@ import React, { FC, ReactElement, useState } from "react";
 import EventApiClient from "../Api/EventApiClient";
 import { EventStatus } from "../Models/EventStatus";
 import { IEvent } from "../Models/IEvent";
+import DatePicker from 'react-date-picker';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
 type EventInfoProps = {
     event: IEvent;
@@ -16,13 +19,18 @@ const EventInfo : FC<EventInfoProps> = (props): ReactElement => {
     const [state, setState] = useState(props.event);
     const eventApiClient : EventApiClient = new EventApiClient();
 
+    const options = [
+        EventStatus[EventStatus.openForRegistration],
+        EventStatus[EventStatus.closed]
+      ];
+    
     async function onSaveClick() {
-        console.log(state);
         await eventApiClient.addEvent(state);
+        props.onBackClick();
     }
 
     return (
-        <div>
+        <div className="text-left">
             <h3 className="mb-5">Event information</h3>
 
             <div className="form-group row">
@@ -36,26 +44,25 @@ const EventInfo : FC<EventInfoProps> = (props): ReactElement => {
             </div>
 
             <div className="form-group row">
-                <label  className="col-sm-2 col-form-label">End date</label>
+                <label  className="col-sm-2 col-form-label">Date</label>
                 <div className="col-sm-10">
-                    <input type="text" className="form-control" id="date" value={ state.date?.toString() } 
-                            onChange={(e) => { setState( 
-                                {...state, date: new Date(e.target.value)}
-                            )}} />
+                    <DatePicker
+                        value={state.date} 
+                        onChange={(value) => { 
+                            setState({...state, date: value  as Date})
+                        }} />
                 </div>
             </div> 
 
             <div className="form-group row">
                 <label  className="col-sm-2 col-form-label">Status</label>
                 <div className="col-sm-10">
-                    <input type="text" className="form-control" id="status" value={ state.status?.toString() } 
-                            onChange={(e) => { 
-                                // TODO
-                                //let statusString : string = e.target.value as keyof EventStatus;
-                                //let newStatus : EventStatus = EventStatus[statusString];
-                                let newStatus = EventStatus.openForRegistration;
-                                setState({...state, status: newStatus })}
-                            } />
+                    <Dropdown 
+                        options={options} 
+                        onChange={(arg) => {
+                            setState({...state, status: arg.value as EventStatus})
+                        }} 
+                        value={ EventStatus[state.status] } />
                 </div>
             </div> 
 
@@ -85,6 +92,26 @@ const EventInfo : FC<EventInfoProps> = (props): ReactElement => {
                     <input type="number" className="form-control" id="capacity" value={ state.capacity } 
                             onChange={(e) => { setState( 
                                 {...state, capacity: parseInt(e.target.value)}
+                            )}} />
+                </div>
+            </div> 
+
+            <div className="form-group row">
+                <label  className="col-sm-2 col-form-label">Required skills</label>
+                <div className="col-sm-10">
+                    <input type="text" className="form-control" id="requiredSkills" value={ state.requiredSkills } 
+                            onChange={(e) => { setState( 
+                                {...state, requiredSkills: e.target.value}
+                            )}} />
+                </div>
+            </div> 
+
+            <div className="form-group row">
+                <label  className="col-sm-2 col-form-label">Recommended skills</label>
+                <div className="col-sm-10">
+                    <input type="text" className="form-control" id="recommendedSkills" value={ state.recommendedSkills } 
+                            onChange={(e) => { setState( 
+                                {...state, recommendedSkills: e.target.value}
                             )}} />
                 </div>
             </div> 

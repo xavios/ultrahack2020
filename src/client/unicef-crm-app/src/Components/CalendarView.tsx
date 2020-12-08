@@ -9,6 +9,8 @@ import EventApiClient from "../Api/EventApiClient";
 import EventInfo from "./EventInfo";
 import { IEvent } from "../Models/IEvent";
 import { EventStatus } from "../Models/EventStatus";
+import { EventViewModel } from "../Models/EventViewModel";
+import Configuration from "../Api/Configuration";
 
 interface ICalendarViewProps {
 
@@ -16,17 +18,40 @@ interface ICalendarViewProps {
 
 interface ICalendarViewState {
     selectedEvent?: IEvent;
+    events: EventViewModel[];
 }
 
 export default class CalendarView extends React.Component<ICalendarViewProps, ICalendarViewState> {
     private eventApiClient : EventApiClient;
-
-    constructor(props: any) {
+        
+    constructor(props: ICalendarViewProps) {
         super(props);
         this.eventApiClient = new EventApiClient();
         this.state = {
-            selectedEvent: undefined
+            selectedEvent: undefined,
+            events: []
         };
+
+    }
+
+    componentDidMount(){
+        fetch(`${Configuration.serviceBaseUrl}/events/getevents`, {
+            method: 'GET'
+        })
+        .then((resp) => resp.json())
+        .then((response) => {
+            const events = response.events.map((e: any) => {
+                let vm : EventViewModel = {
+                    id: e._id,
+                    title: e.name,
+                    start: e.date,
+                    allDay: true
+                };
+                return vm;
+
+            });
+           this.setState({ selectedEvent: undefined, events: events });
+        });
     }
 
     render() {     
@@ -49,7 +74,8 @@ export default class CalendarView extends React.Component<ICalendarViewProps, IC
             }}
             initialView="dayGridMonth"
             eventClick={this.onEventClick}           
-            events={this.eventApiClient.getEvents()} />);
+            events={this.state.events} 
+            />);
         
     }
 
@@ -59,16 +85,21 @@ export default class CalendarView extends React.Component<ICalendarViewProps, IC
             name: "New Event",
             date: new Date("2020.12.06."),
             status: EventStatus.openForRegistration,
-            location: "Budapest"
+            location: "Budapest",
+            capacity: 3,
+            description: "This is the latest unicef event",
+            requiredSkills: "speech",
+            recommendedSkills: "luck"
         }})
     }
 
     onBackClick = () => {
-        this.setState({ selectedEvent: undefined });
+        this.componentDidMount();
+        //this.setState({ selectedEvent: undefined });
     }
 
-    onEventClick = (arg: EventClickArg) => {
-        const eventId = parseInt(arg.event.id);
+    onEventClick = async (arg: EventClickArg) => {
+        const eventId = arg.event.id;
         const event : IEvent = this.eventApiClient.get(eventId);
         this.setState({ selectedEvent: event });
     }

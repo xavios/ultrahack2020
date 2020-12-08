@@ -1,12 +1,11 @@
-import { EventViewModel }  from "../Models/EventViewModel";
+import { EventStatus } from "../Models/EventStatus";
 import { IEvent } from "../Models/IEvent";
+import Configuration from "./Configuration";
 
 export default class EventApiClient {
-    private baseUrl = "http://localhost:4000";
-
     public async addEvent(event: IEvent): Promise<void> {
         const response = await fetch(
-            `${this.baseUrl}/createevent`, {
+            `${Configuration.serviceBaseUrl}/events/createevent`, {
                 method: 'POST',
                 headers:  {
                     'Content-Type': 'application/json'
@@ -16,34 +15,13 @@ export default class EventApiClient {
         );
 
         console.log(response);
-        if (response.status !== 201) {
-            
-        }
     }
 
-    public get(id: number) : IEvent {
+    public get(id: string) : IEvent {
         return {
             id: id,
-            name: "event from db"        
+            name: "event from db",
+            status: EventStatus.openForRegistration     
         }
-    }
-
-    public getEvents() : EventViewModel[] {
-        return [
-            {
-                id: '999',
-                title  : 'event3',
-                start  : '2020-12-06T12:30:00',
-                end: '2020-12-06T14:30:00',
-                allDay : false // will make the time show
-            },
-            {
-                id: '1001',
-                title  : 'event2',
-                start  : '2020-12-05',
-                end    : '2020-12-07',
-                allDay: true
-            }
-        ]
     }
 }

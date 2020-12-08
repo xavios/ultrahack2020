@@ -1,5 +1,5 @@
 export enum EventStatus { 
-    'openForRegistration',
-    'closed',
+    openForRegistration = "openForRegistration",
+    closed = "closed",
     //TODO: extend with possible options
 }
