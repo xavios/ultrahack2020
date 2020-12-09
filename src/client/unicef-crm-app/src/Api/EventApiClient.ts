@@ -26,7 +26,9 @@ export default class EventApiClient {
 
         const responseJson =  await response.json();
         let event = responseJson.event;
-        event.date = new Date(event.date);
+        debugger;
+        event.startDate = new Date(event.startDate);
+        event.endDate = new Date(event.endDate);
         
         return event;
     }

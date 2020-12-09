@@ -52,12 +52,23 @@ const EventInfo : FC<EventInfoProps> = (props): ReactElement => {
             </div>
 
             <div className="form-group row">
-                <label  className="col-sm-2 col-form-label">Date</label>
+                <label  className="col-sm-2 col-form-label">Start Date</label>
                 <div className="col-sm-10">
                     <DatePicker
-                        selected={state.date} 
+                        selected={state.startDate} 
                         onChange={(date: any) => { 
-                            setState({...state, date: date})
+                            setState({...state, startDate: date})
+                        }} />
+                </div>
+            </div> 
+
+            <div className="form-group row">
+                <label  className="col-sm-2 col-form-label">End Date</label>
+                <div className="col-sm-10">
+                    <DatePicker
+                        selected={state.endDate} 
+                        onChange={(date: any) => { 
+                            setState({...state, endDate: date})
                         }} />
                 </div>
             </div> 

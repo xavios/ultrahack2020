@@ -44,7 +44,8 @@ export default class CalendarView extends React.Component<ICalendarViewProps, IC
                 let vm : EventViewModel = {
                     id: e._id,
                     title: e.name,
-                    start: e.date,
+                    start: e.startDate,
+                    end: e.endDate,
                     allDay: true
                 };
                 return vm;
@@ -83,7 +84,8 @@ export default class CalendarView extends React.Component<ICalendarViewProps, IC
         this.setState({ selectedEvent: {
             _id: undefined,
             name: "New Event",
-            date: new Date("2020.12.06."),
+            startDate: new Date("2020.12.06."),
+            endDate: new Date("2020.12.06"),
             status: EventStatus.openForRegistration,
             location: "Budapest",
             capacity: 3,

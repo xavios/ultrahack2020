@@ -4,7 +4,8 @@ export interface IEvent {
     _id?: string;
     name?: string;
     status: EventStatus,
-    date?: Date,
+    startDate?: Date,
+    endDate?: Date,
     location?: string,
     volunteersNumber?: number,
     capacity?: number,
