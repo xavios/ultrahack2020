@@ -76,7 +76,17 @@ export default class EventController {
                 "recommendedSkills" >
         try {
             const updatedEvent: IEvent = 
-                await Event.findOneAndUpdate(event._id, event, { new: true, useFindAndModify: false });
+                await Event.findOneAndUpdate({ _id: event._id } , {
+                    name: event.name,
+                    status: event.status,
+                    date: event.date,
+                    location: event.location,
+                    volunteersNumber: event.volunteersNumber,
+                    capacity: event.capacity,
+                    description: event.description,
+                    requiredSkills: event.requiredSkills,
+                    ecommendedSkills: event.requiredSkills
+                }, { new: true, useFindAndModify: false });
             if (!updatedEvent) {
                 res.status(404).send('No event found');
             }
