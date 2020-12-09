@@ -27,4 +27,34 @@ export default class EventApiClient {
         const responseJson =  await response.json();
         return responseJson.event;
     }
+
+    public async delete(id?: string): Promise<void> {
+        await fetch(
+            `${Configuration.serviceBaseUrl}/events/deleteevent/${id}`, {
+                method: 'DELETE',
+                headers:  {
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
+    }
+
+    public async update(event: IEvent): Promise<void> {
+        const body = JSON.stringify(event);
+        console.log(body);
+
+        const response = await fetch(
+            `${Configuration.serviceBaseUrl}/events/updateevent`, {
+                method: 'POST',
+                headers:  {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(event)
+            }
+        );
+            
+        
+        const responseJson = await response.json();
+        console.log(responseJson)
+    }
 }

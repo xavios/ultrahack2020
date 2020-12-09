@@ -11,11 +11,7 @@ type EventInfoProps = {
     onBackClick: () => void;
 }
 
-type EventInfoState = {
-    event: IEvent;
-}
-
-const EventInfo : FC<EventInfoProps> = (props): ReactElement => {  
+const EventInfo : FC<EventInfoProps> = (props): ReactElement => {     
     const [state, setState] = useState(props.event);
     const eventApiClient : EventApiClient = new EventApiClient();
 
@@ -24,14 +20,23 @@ const EventInfo : FC<EventInfoProps> = (props): ReactElement => {
         EventStatus[EventStatus.closed]
       ];
     
-    async function onSaveClick() {
-        await eventApiClient.addEvent(state);
+    async function onSaveClick() {        
+        if (state._id) {
+            await eventApiClient.update(state);
+        } else {
+            await eventApiClient.addEvent(state);            
+        }
+        props.onBackClick();
+    }
+
+    async function onDeleteClick() {
+        await  eventApiClient.delete(state._id);
         props.onBackClick();
     }
 
     return (
-        <div className="text-left">
-            <h3 className="mb-5">Event information</h3>
+        <div className="text-left">            
+            <h3 className="mb-5">Event information</h3>            
 
             <div className="form-group row">
                 <label  className="col-sm-2 col-form-label">Event Name</label>
@@ -121,10 +126,17 @@ const EventInfo : FC<EventInfoProps> = (props): ReactElement => {
                     onClick={props.onBackClick}
                     type="button" 
                     className="btn btn-primary">Back</button>
-                <button 
-                    onClick={onSaveClick}
-                    type="button" 
-                    className="btn btn-success pull-right">Save changes</button>
+                    
+                <div className="btn-toolbar">
+                    <button 
+                        onClick={onDeleteClick}
+                        type="button" 
+                        className="btn btn-danger mr-5">Delete</button>
+                    <button 
+                        onClick={onSaveClick}
+                        type="button" 
+                        className="btn btn-success">Save changes</button>
+                </div>
             </div>
         </div>
     );
