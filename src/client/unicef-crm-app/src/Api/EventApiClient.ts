@@ -25,7 +25,12 @@ export default class EventApiClient {
         );
 
         const responseJson =  await response.json();
-        return responseJson.event;
+        let event = responseJson.event;
+        debugger;
+        event.startDate = new Date(event.startDate);
+        event.endDate = new Date(event.endDate);
+        
+        return event;
     }
 
     public async delete(id?: string): Promise<void> {

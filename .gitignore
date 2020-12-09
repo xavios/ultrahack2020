@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/src/data
 /.pnp
 .pnp.js
 
@@ -30,3 +31,4 @@ yarn-error.log*
 .vs
 
 .eslintcache
+/data

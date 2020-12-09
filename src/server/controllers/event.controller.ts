@@ -1,5 +1,7 @@
+import mongoose from 'mongoose';
 import { Response, Request } from 'express';
 import Event, { IEvent } from '../models/event.model';
+import EventRegistration from '../models/eventRegistration.model';
 
 export default class EventController {
     
@@ -9,7 +11,8 @@ export default class EventController {
                 "_id" |
                 "name" | 
                 "status" | 
-                "date" |
+                "startDate" |
+                "endDate" |
                 "location" |
                 "volunteersNumber" |
                 "capacity" |
@@ -50,14 +53,23 @@ export default class EventController {
     }
         
     public async DeleteEventById(req: Request, res: Response): Promise<void> {
+        const params = req.params as Pick<IEvent, "id">
+        const session = await mongoose.startSession();
+        session.startTransaction();
+
         try {
-            const deletedEvent: IEvent = await Event.findByIdAndRemove(req.params.id)
+            await EventRegistration.deleteMany({ eventId: params.id }).session(session);
+            const deletedEvent: IEvent = await Event.findByIdAndRemove(params.id).session(session);
             if (!deletedEvent) {
                 res.status(404).send('No event found');
             }
-            res.status(200).json({ event: deletedEvent })
+            res.status(200).json({ event: deletedEvent });
+            await session.commitTransaction();
         } catch (error) {
+            await session.abortTransaction();
             res.status(500).send(error);
+        } finally {
+            session.endSession();
         }
     }
         
@@ -67,7 +79,8 @@ export default class EventController {
                 "_id" |
                 "name" | 
                 "status" | 
-                "date" |
+                "startDate" |
+                "endDate" |
                 "location" |
                 "volunteersNumber" |
                 "capacity" |
@@ -79,13 +92,14 @@ export default class EventController {
                 await Event.findOneAndUpdate({ _id: event._id } , {
                     name: event.name,
                     status: event.status,
-                    date: event.date,
+                    startDate: event.startDate,
+                    endDate: event.endDate,
                     location: event.location,
                     volunteersNumber: event.volunteersNumber,
                     capacity: event.capacity,
                     description: event.description,
                     requiredSkills: event.requiredSkills,
-                    ecommendedSkills: event.requiredSkills
+                    recommendedSkills: event.requiredSkills
                 }, { new: true, useFindAndModify: false });
             if (!updatedEvent) {
                 res.status(404).send('No event found');
