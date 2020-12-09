@@ -2,9 +2,12 @@ import React, { FC, ReactElement, useState } from "react";
 import EventApiClient from "../Api/EventApiClient";
 import { EventStatus } from "../Models/EventStatus";
 import { IEvent } from "../Models/IEvent";
-import DatePicker from 'react-date-picker';
+
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
+
+import DatePicker from "react-datepicker"; 
+import "react-datepicker/dist/react-datepicker.css";
 
 type EventInfoProps = {
     event: IEvent;
@@ -52,9 +55,9 @@ const EventInfo : FC<EventInfoProps> = (props): ReactElement => {
                 <label  className="col-sm-2 col-form-label">Date</label>
                 <div className="col-sm-10">
                     <DatePicker
-                        value={state.date} 
-                        onChange={(value) => { 
-                            setState({...state, date: value  as Date})
+                        selected={state.date} 
+                        onChange={(date: any) => { 
+                            setState({...state, date: date})
                         }} />
                 </div>
             </div> 
