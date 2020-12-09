@@ -1,16 +1,12 @@
 import mongoose, { Schema, Document } from 'mongoose';
+import BaseRegistrationSchema, { IBaseRegistration } from './baseRegistration.model';
 
-export interface ITaskRegistration extends Document {
-    _id: Schema.Types.ObjectId;
-    userId: Schema.Types.ObjectId;
+export interface ITaskRegistration extends IBaseRegistration {
     taskId: Schema.Types.ObjectId;
-    confirmed: Boolean;
 }
 
-const TaskRegistrationSchema: Schema = new Schema({
-    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true},
+const TaskRegistrationSchema: Schema = new BaseRegistrationSchema({
     taskId: { type: Schema.Types.ObjectId, ref: 'Task', required: true},
-    confirmed: { type: Boolean, required: true, default: false }
 });
 
 export default mongoose.model<ITaskRegistration>('TaskRegistration', TaskRegistrationSchema);
