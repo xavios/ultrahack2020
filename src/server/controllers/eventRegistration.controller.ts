@@ -1,22 +1,22 @@
   
 import { Response, Request } from 'express';
-import Registration, { IRegistration } from '../models/registration.model';
+import EventRegistration, { IEventRegistration } from '../models/eventRegistration.model';
 
-export default class RegistrationController {
+export default class EventRegistrationController {
     
-    public async CreateRegistration(req: Request, res: Response): Promise<void> {
+    public async CreateEventRegistration(req: Request, res: Response): Promise<void> {
             const registration = req.body as Pick<
-                IRegistration,
+                IEventRegistration,
                     "_id" |
                     "userId" | 
                     "eventId" |
                     "confirmed">
         try {
-            const existingRegistration: IRegistration = await Registration.findOne({ eventId: registration.eventId,  userId: registration.userId});
+            const existingRegistration: IEventRegistration = await EventRegistration.findOne({ eventId: registration.eventId,  userId: registration.userId});
             if (existingRegistration) {
                 res.status(200).send("User already has a registration on this event");
             } else {
-                const newRegistration: IRegistration = await Registration.create(registration);
+                const newRegistration: IEventRegistration = await EventRegistration.create(registration);
                 res.status(201).json({ message: 'New event registration created', registration: newRegistration });
             }
         } catch (error) {
@@ -24,11 +24,11 @@ export default class RegistrationController {
         }
     }
 
-    public async GetRegistratedEventsOfUserById(req: Request, res: Response): Promise<void> {
-        const params = req.params as Pick<IRegistration, "id">;
+    public async GetRegisteredEventsOfUserById(req: Request, res: Response): Promise<void> {
+        const params = req.params as Pick<IEventRegistration, "id">;
 
         try {
-            const registrations: IRegistration[] = await Registration.find({ userId: params.id }).populate("eventId");
+            const registrations: IEventRegistration[] = await EventRegistration.find({ userId: params.id }).populate("eventId");
             if (!registrations) {
                 res.status(404).send('No registration found');
             }
@@ -39,10 +39,10 @@ export default class RegistrationController {
     }
 
     public async GetRegisteredUsersOfEventById(req: Request, res: Response): Promise<void> {
-        const params = req.params as Pick<IRegistration, "id">;
+        const params = req.params as Pick<IEventRegistration, "id">;
 
         try {
-            const registrations: IRegistration[] = await Registration.find({ eventId: params.id }).populate("userId");
+            const registrations: IEventRegistration[] = await EventRegistration.find({ eventId: params.id }).populate("userId");
             if (!registrations) {
                 res.status(404).send('No registration found');
             }
@@ -53,14 +53,14 @@ export default class RegistrationController {
     }
 
     public async DeleteUserRegistrationsById(req: Request, res: Response): Promise<void> {
-        const params = req.params as Pick<IRegistration, "id">
+        const params = req.params as Pick<IEventRegistration, "id">
 
         try {
-            const deletedRegistration: IRegistration = await Registration.findOneAndDelete({ userId: params.id });
-            if (!deletedRegistration) {
+            const success: Boolean = await EventRegistration.deleteMany({ userId: params.id }) > 0;
+            if (!success) {
                 res.status(404).send('No registration found');
             }
-            res.status(200).json({ deletedRegistration })
+            res.status(200).json({ success })
         } catch (error) {
             res.status(500).send(error);
         }
@@ -68,14 +68,14 @@ export default class RegistrationController {
 
     public async SetUserConfirmationOnEventById(req: Request, res: Response): Promise<void> {
         const registration = req.body as Pick<
-            IRegistration,
+            IEventRegistration,
                 "userId" | 
                 "eventId" |
                 "confirmed">
 
         try {
-            const updatedRegistration: IRegistration = 
-                await Registration.findOneAndUpdate(
+            const updatedRegistration: IEventRegistration = 
+                await EventRegistration.findOneAndUpdate(
                     { userId: registration.userId, eventId: registration.eventId }, 
                     { confirmed: registration.confirmed },
                     { new: true, useFindAndModify: false});

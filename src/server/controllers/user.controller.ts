@@ -1,6 +1,8 @@
   
+import mongoose from 'mongoose';
 import { Response, Request } from 'express';
 import User, { IUser } from '../models/user.model';
+import EventRegistration from '../models/eventRegistration.model';
 
 export default class UserController {
     
@@ -51,14 +53,23 @@ export default class UserController {
     }
         
     public async DeleteUserById(req: Request, res: Response): Promise<void> {
+        const params = req.params as Pick<IUser, "id">
+        const session = await mongoose.startSession();
+        session.startTransaction();
+
         try {
-            const deletedUser: IUser = await User.findByIdAndRemove(req.params.id)
+            await EventRegistration.deleteMany({ userId: params.id }).session(session);
+            const deletedUser: IUser = await User.findByIdAndRemove(params.id).session(session);
             if (!deletedUser) {
                 res.status(404).send('No user found');
             }
-            res.status(200).json({ user: deletedUser })
+            res.status(200).json({ user: deletedUser });
+            await session.commitTransaction();
         } catch (error) {
+            await session.abortTransaction();
             res.status(500).send(error);
+        } finally {
+            session.endSession();
         }
     }
         
@@ -78,7 +89,7 @@ export default class UserController {
             'photo'>
         
         try {
-             const updatedUser: IUser = await User.findOneAndUpdate(user._id, user, { new: true });
+             const updatedUser: IUser = await User.findByIdAndUpdate(user._id, user, { new: true });
              if (!updatedUser) {
                 res.status(404).send('No user found');
             }

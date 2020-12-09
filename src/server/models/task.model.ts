@@ -1,7 +1,7 @@
   
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface IEvent extends Document {
+export interface ITask extends Document {
     _id: Schema.Types.ObjectId;
     name: string;
     status: string,
@@ -20,7 +20,7 @@ export enum Status {
     closed = 'closed'
 }
 
-const EventSchema: Schema = new Schema({
+const TaskSchema: Schema = new Schema({
     name: { type: String, required: true },
     status: { type: String, enum: Object.values(Status) },
     startDate: { type: Date },
@@ -34,4 +34,4 @@ const EventSchema: Schema = new Schema({
     released: { type: Boolean, required: true, default: false }
 });
 
-export default mongoose.model<IEvent>('Event', EventSchema);
+export default mongoose.model<ITask>('Task', TaskSchema);
