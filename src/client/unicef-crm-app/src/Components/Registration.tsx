@@ -1,7 +1,6 @@
 import React from "react";
-import envVars from "./../envVars";
 import axios from "axios";
-import { env } from "process";
+import configuration from "./../Api/Configuration";
 
 class Volunteer {
   FirstName: any;
@@ -32,7 +31,7 @@ export default class Registration extends React.Component<any, IState> {
     console.log(this.state);
     const volunteerState = (this.state as any).volunteer;
     axios
-      .post(envVars.BackendBaseURL + "/users/createuser", {
+      .post(configuration.serviceBaseUrl + "/users/createuser", {
         email: volunteerState.Email,
         password: volunteerState.Password,
         firstName: volunteerState.FirstName,
