@@ -1,37 +1,15 @@
   
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
+import BaseSubjectSchema, { IBaseSubjectSchema } from './baseSubject.model';
 
-export interface IEvent extends Document {
-    _id: Schema.Types.ObjectId;
-    name: string;
-    status: string,
+export interface IEvent extends IBaseSubjectSchema {
     startDate: Date,
-    endDate: Date,
-    location: string,
-    volunteersNumber?: number,
-    capacity?: number,
-    description?: string,
-    requiredSkills?: string,
-    recommendedSkills?: string
+    endDate: Date
 }
 
-export enum Status { 
-    openForRegistration = 'openForRegistration',
-    closed = 'closed'
-}
-
-const EventSchema: Schema = new Schema({
-    name: { type: String, required: true },
-    status: { type: String, enum: Object.values(Status) },
+const EventSchema: Schema = new BaseSubjectSchema({
     startDate: { type: Date },
-    endDate: { type: Date },
-    location: { type: String },
-    volunteersNumber: { type: Number },
-    capacity: { type: Number },
-    description: { type: String },
-    requiredSkills: { type: String },
-    recommendedSkills: { type: String },
-    released: { type: Boolean, required: true, default: false }
+    endDate: { type: Date }
 });
 
 export default mongoose.model<IEvent>('Event', EventSchema);

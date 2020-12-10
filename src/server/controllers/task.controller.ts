@@ -11,14 +11,14 @@ export default class TaskController {
                 "_id" |
                 "name" | 
                 "status" | 
-                "startDate" |
-                "endDate" |
+                "deadLine" |
                 "location" |
                 "volunteersNumber" |
                 "capacity" |
                 "description" |
                 "requiredSkills" |
-                "recommendedSkills" >
+                "recommendedSkills" |
+                "done" >
 
         try {
             const newTask: ITask = await Task.create(task);
@@ -79,14 +79,14 @@ export default class TaskController {
                 "_id" |
                 "name" | 
                 "status" | 
-                "startDate" |
-                "endDate" |
+                "deadLine" |
                 "location" |
                 "volunteersNumber" |
                 "capacity" |
                 "description" |
                 "requiredSkills" |
-                "recommendedSkills" >
+                "recommendedSkills" |
+                "done" >
         try {
             const updatedTask: ITask = 
                 await Task.findByIdAndUpdate(task._id, task, { new: true, useFindAndModify: false });
