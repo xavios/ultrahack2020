@@ -99,7 +99,7 @@ export default class EventController {
                     capacity: event.capacity,
                     description: event.description,
                     requiredSkills: event.requiredSkills,
-                    recommendedSkills: event.requiredSkills
+                    recommendedSkills: event.recommendedSkills
                 }, { new: true, useFindAndModify: false });
             if (!updatedEvent) {
                 res.status(404).send('No event found');
