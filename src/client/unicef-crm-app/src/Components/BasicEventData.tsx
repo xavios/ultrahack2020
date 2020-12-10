@@ -9,12 +9,12 @@ import 'react-dropdown/style.css';
 import DatePicker from "react-datepicker"; 
 import "react-datepicker/dist/react-datepicker.css";
 
-type EventInfoProps = {
+type BasicEventDataProps = {
     event: IEvent;
     onBackClick: () => void;
 }
 
-const EventInfo : FC<EventInfoProps> = (props): ReactElement => {     
+const BasicEventData : FC<BasicEventDataProps> = (props): ReactElement => {     
     const [state, setState] = useState(props.event);
     const eventApiClient : EventApiClient = new EventApiClient();
 
@@ -38,9 +38,7 @@ const EventInfo : FC<EventInfoProps> = (props): ReactElement => {
     }
 
     return (
-        <div className="text-left">            
-            <h3 className="mb-5">Event information</h3>            
-
+        <div className="text-left">       
             <div className="form-group row">
                 <label  className="col-sm-2 col-form-label">Event Name</label>
                 <div className="col-sm-10">
@@ -156,4 +154,4 @@ const EventInfo : FC<EventInfoProps> = (props): ReactElement => {
     );
 };
 
-export default EventInfo;
+export default BasicEventData;

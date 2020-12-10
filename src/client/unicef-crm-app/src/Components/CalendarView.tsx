@@ -6,11 +6,11 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
 import EventApiClient from "../Api/EventApiClient";
-import EventInfo from "./EventInfo";
 import { IEvent } from "../Models/IEvent";
 import { EventStatus } from "../Models/EventStatus";
 import { EventViewModel } from "../Models/EventViewModel";
 import Configuration from "../Api/Configuration";
+import EventDetails from "./EventDetails";
 
 interface ICalendarViewProps {
 
@@ -57,7 +57,7 @@ export default class CalendarView extends React.Component<ICalendarViewProps, IC
 
     render() {     
         if (this.state.selectedEvent) {
-            return (<EventInfo event={this.state.selectedEvent} onBackClick={this.onBackClick} />);
+            return (<EventDetails event={this.state.selectedEvent} onBackClick={this.onBackClick} />);
         } 
 
         return (<FullCalendar
