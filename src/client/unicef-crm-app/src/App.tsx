@@ -5,7 +5,7 @@ import Home from './Components/Home';
 import Navbar from './Components/Navbar';
 import Profile from './Components/Profile';
 import Registration from './Components/Registration'
-import Tasks from './Components/Tasks';
+import TaskDetails from './Components/TaskDetails';
 import { NavbarConstants } from './NavbarConstants';
 
 const App : FC = (): ReactElement => {    
@@ -22,7 +22,7 @@ const App : FC = (): ReactElement => {
         {selectedNavbarItem === NavbarConstants.calendar && <CalendarView /> }
         {selectedNavbarItem === NavbarConstants.myProfile && <Profile /> }
         {selectedNavbarItem === NavbarConstants.registration && <Registration /> }
-        {selectedNavbarItem === NavbarConstants.tasks && <Tasks /> }
+        {selectedNavbarItem === NavbarConstants.tasks && <TaskDetails /> }
 
     </div>
   );

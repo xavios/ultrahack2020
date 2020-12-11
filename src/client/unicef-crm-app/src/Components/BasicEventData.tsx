@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, useState } from "react";
 import EventApiClient from "../Api/EventApiClient";
-import { EventStatus } from "../Models/EventStatus";
+import { Status } from "../Models/Status";
 import { IEvent } from "../Models/IEvent";
 
 import Dropdown from 'react-dropdown';
@@ -19,8 +19,8 @@ const BasicEventData : FC<BasicEventDataProps> = (props): ReactElement => {
     const eventApiClient : EventApiClient = new EventApiClient();
 
     const options = [
-        EventStatus[EventStatus.openForRegistration],
-        EventStatus[EventStatus.closed]
+        Status[Status.openForRegistration],
+        Status[Status.closed]
       ];
     
     async function onSaveClick() {        
@@ -77,9 +77,9 @@ const BasicEventData : FC<BasicEventDataProps> = (props): ReactElement => {
                     <Dropdown 
                         options={options} 
                         onChange={(arg) => {
-                            setState({...state, status: arg.value as EventStatus})
+                            setState({...state, status: arg.value as Status})
                         }} 
-                        value={ EventStatus[state.status] } />
+                        value={ Status[state.status] } />
                 </div>
             </div> 
 

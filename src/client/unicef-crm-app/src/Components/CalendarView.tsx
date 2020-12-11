@@ -7,7 +7,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 
 import EventApiClient from "../Api/EventApiClient";
 import { IEvent } from "../Models/IEvent";
-import { EventStatus } from "../Models/EventStatus";
+import { Status } from "../Models/Status";
 import { EventViewModel } from "../Models/EventViewModel";
 import Configuration from "../Api/Configuration";
 import EventDetails from "./EventDetails";
@@ -86,7 +86,7 @@ export default class CalendarView extends React.Component<ICalendarViewProps, IC
             name: "New Event",
             startDate: new Date("2020.12.06."),
             endDate: new Date("2020.12.06"),
-            status: EventStatus.openForRegistration,
+            status: Status.openForRegistration,
             location: "Budapest",
             capacity: 3,
             description: "This is the latest unicef event",
