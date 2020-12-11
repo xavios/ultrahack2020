@@ -58,12 +58,12 @@
     ]
   },
   "scripts": {
-    "client-build-dev": "react-scripts start",
-    "client-build-prod": "react-scripts build",
-    "client-test": "react-scripts test",
-    "client-eject": "react-scripts eject",
-    "server-dev": "nodemon --config nodemon.json server/index.ts",
-    "concurrently": "concurrently -kill-others-on-fail \"npm run server-dev\" \"npm run client-build-dev\"",
+    "client-build-dev": "NODE_ENV=dev react-scripts start",
+    "client-build-prod": "NODE_ENV=dev react-scripts build",
+    "client-test": "NODE_ENV=dev react-scripts test",
+    "client-eject": "NODE_ENV=dev react-scripts eject",
+    "server-dev": "NODE_ENV=dev nodemon --config nodemon.json server/index.ts",
+    "concurrently": "NODE_ENV=dev concurrently -kill-others-on-fail \"npm run server-dev\" \"npm run client-build-dev\"",
     "start": "NODE_ENV=production npx ts-node --project ./node.tsconfig.json ./server/index.ts",
     "heroku-postbuild": "npm install && npm run client-build-prod"
   },
