@@ -2,6 +2,7 @@ import React, { FC, ReactElement, useEffect, useState } from "react";
 import EventRegistrationApiClient from "../Api/EventRegistrationApiClient";
 import UserApiClient from "../Api/UserApiClient";
 import { IEvent } from "../Models/IEvent"
+import { IEventRegistration } from "../Models/IEventRegistration";
 import { IUser } from "../Models/IUser";
 
 type EventParticipantsProps = {
@@ -14,9 +15,10 @@ const EventParticipants : FC<EventParticipantsProps> = (props): ReactElement => 
     const eventRegistrationApiClient = new EventRegistrationApiClient();
 
     const [state, setState] = useState({
+        registrations: Array<IEventRegistration>(),
         users: Array<IUser>(),
-        registeredUsers: Array<IUser>(),
         availableUsers: Array<IUser>(),
+        registeredUsers: Array<IUser>(),
         confirmedUsers: Array<IUser>()
     });
     
@@ -29,11 +31,31 @@ const EventParticipants : FC<EventParticipantsProps> = (props): ReactElement => 
     
     const loadData = async () => {
         const users = await userApiClient.getUsers();            
-        const registeredUsers = await eventRegistrationApiClient.getRegisteredUsers(props.event._id);
-        const confirmedUsers = users;
-        const availableUsers = users.filter(user => !registeredUsers.includes(user));
+        const registrations = await eventRegistrationApiClient.getRegisteredUsers(props.event._id);
+        const registeredUsers = users.filter(u => 
+            registrations
+            .filter(r => r.userId === u._id && !r.confirmed)
+            .map(m => m.userId)
+            .includes(u._id)
+        );
+        
+        const confirmedUsers = users.filter(u => 
+            registrations
+            .filter(r => r.userId === u._id && r.confirmed)
+            .map(m => m.userId)
+            .includes(u._id)
+        );
+           
+        const availableUsers = users.filter(user => 
+            !registrations.map(r => r.userId).includes(user._id));
 
-        setState({ ...state, users: users, registeredUsers: registeredUsers, availableUsers: availableUsers});
+        setState({ ...state, 
+            registrations: registrations,
+            users: users, 
+            availableUsers: availableUsers,
+            registeredUsers: registeredUsers, 
+            confirmedUsers: confirmedUsers
+        });
     }
 
     const onAddClick = async (userId: string) => {
@@ -45,15 +67,18 @@ const EventParticipants : FC<EventParticipantsProps> = (props): ReactElement => 
 
     const onConfirmClick = async (userId: string) => {
         if (props.event._id) {
-            // await eventRegistrationApiClient.create(userId, props.event._id, false);
+            await eventRegistrationApiClient.update(userId, props.event._id, true);
             await loadData();
         }
     }
 
     const onRemoveClick = async (userId: string) => {
         if (props.event._id) {
-            // await eventRegistrationApiClient.create(userId, props.event._id, false);
-            await loadData();
+            const registration = state.registrations.find(r => r.userId === userId);
+            if (registration) {
+                await eventRegistrationApiClient.delete(registration._id);
+                await loadData();
+            }
         }
     }
 
