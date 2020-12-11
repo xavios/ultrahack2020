@@ -58,12 +58,13 @@
     ]
   },
   "scripts": {
-    "client": "react-scripts start",
-    "client-build": "react-scripts build",
+    "client-build-dev": "react-scripts start",
+    "client-build-prod": "react-scripts build",
     "client-test": "react-scripts test",
     "client-eject": "react-scripts eject",
     "server-dev": "nodemon --config nodemon.json server/index.ts",
-    "concurrently": "concurrently -kill-others-on-fail \"npm run server-dev\" \"npm run client\""
+    "concurrently": "concurrently -kill-others-on-fail \"npm run server-dev\" \"npm run client-build-dev\"",
+    "heroku-postbuild": "npm install && npm run client-build-prod"
   },
   "author": "exPhoenix",
   "license": "ISC"

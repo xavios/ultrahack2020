@@ -8,10 +8,11 @@ import eventRegistrationRoutes from './routes/eventRegistration.routes';
 import taskRegistrationRoutes from './routes/taskRegistration.routes';
 import connect from './connect';
 import bodyParser from 'body-parser';
+import path from 'path';
 
 const app: Express = express();
 
-const port: string | number = process.env.BACKEND_PORT;
+const port: string | number = process.env.REACT_APP_BACKEND_PORT;
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -25,6 +26,11 @@ app.use('/events', eventRoutes);
 app.use('/tasks', taskRoutes);
 app.use('/eventregistrations', eventRegistrationRoutes);
 app.use('/taskregistrations', taskRegistrationRoutes);
+
+app.use(express.static(path.join(__dirname, "../build")))
+app.get("*", function(req, resp) {
+  resp.sendFile(path.join(__dirname, "../build", "index.html"))
+})
 
 app.get('/', (req: Request, res: Response) =>
   res.send('Welcome to the unicef app')
