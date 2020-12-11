@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import configuration from "../Api/Configuration";
+import Configuration from "./../Api/Configuration";
 
 class Volunteer {
   FirstName: any;
@@ -31,7 +31,7 @@ export default class Registration extends React.Component<any, IState> {
     console.log(this.state);
     const volunteerState = (this.state as any).volunteer;
     axios
-      .post(configuration.serviceBaseUrl + "/users/createuser", {
+      .post(Configuration.serviceBaseUrl + "/users/createuser", {
         email: volunteerState.Email,
         password: volunteerState.Password,
         firstName: volunteerState.FirstName,
