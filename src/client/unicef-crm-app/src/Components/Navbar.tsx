@@ -27,6 +27,10 @@ const Navbar : FC<NavbarProps> = (props): ReactElement => {
                     <span className={props.selectedItem === NavbarConstants.registration ? 'nav-link active' : 'nav-link'}                        
                           onClick={() => props.onClick(NavbarConstants.registration)}>{NavbarConstants.registration}</span>
                 </li>
+                <li className="nav-item">
+                    <span className={props.selectedItem === NavbarConstants.tasks ? 'nav-link active' : 'nav-link'}                        
+                          onClick={() => props.onClick(NavbarConstants.tasks)}>{NavbarConstants.tasks}</span>
+                </li>
                 </ul>
             </div>
         </nav>
