@@ -1,8 +1,8 @@
-import { IEventRegistration } from "../Models/IEventRegistration";
+import { IUser } from "../Models/IUser";
 import Configuration from "./Configuration";
 
 export default class EventRegistrationApiClient {
-    public async getRegisteredUsers(eventId?: string): Promise<IEventRegistration[]> {
+    public async getRegisteredUsers(eventId?: string): Promise<IUser[]> {
         const response = await fetch(
             `${Configuration.serviceBaseUrl}/eventregistrations/geteventregistrations/${eventId}`, {
                 method: 'GET',
@@ -13,7 +13,7 @@ export default class EventRegistrationApiClient {
         )
 
         const responseJson = await response.json();
-        return responseJson.registrations;
+        return responseJson.users;
     }
 
     public async create(userId: string, eventId: string, confirmed: boolean) : Promise<void> {
