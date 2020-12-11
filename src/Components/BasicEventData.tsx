@@ -8,6 +8,7 @@ import "react-dropdown/style.css";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Status } from "src/Models/Status";
 
 type BasicEventDataProps = {
   event: IEvent;
@@ -84,7 +85,7 @@ const BasicEventData: FC<BasicEventDataProps> = (props): ReactElement => {
           <Dropdown
             options={options}
             onChange={(arg) => {
-              setState({ ...state, status: arg.value as EventStatus });
+              setState({ ...state, status: arg.value as Status });
             }}
             value={EventStatus[state.status]}
           />

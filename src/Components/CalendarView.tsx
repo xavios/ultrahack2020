@@ -11,6 +11,7 @@ import { EventStatus } from "./../Models/EventStatus";
 import { EventViewModel } from "./../Models/EventViewModel";
 import Configuration from "../Api/Configuration";
 import EventDetails from "./EventDetails";
+import { Status } from "src/Models/Status";
 
 interface ICalendarViewProps {}
 
@@ -92,7 +93,7 @@ export default class CalendarView extends React.Component<
         name: "New Event",
         startDate: new Date("2020.12.06."),
         endDate: new Date("2020.12.06"),
-        status: EventStatus.openForRegistration,
+        status: Status.openForRegistration,
         location: "Budapest",
         capacity: 3,
         description: "This is the latest unicef event",
