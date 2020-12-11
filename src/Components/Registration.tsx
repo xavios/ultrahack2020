@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import configuration from "./../Api/Configuration";
+import configuration from "../Api/Configuration";
 
 class Volunteer {
   FirstName: any;

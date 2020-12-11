@@ -1,6 +1,4 @@
 import React from "react";
-import axios from "axios";
-import configuration from "./../Api/Configuration";
 
 class Volunteer {
   FirstName: any;
@@ -16,6 +14,4 @@ interface IState {
   volunteer: Volunteer;
 }
 
-export default class Tasks extends React.Component<any, IState> {
-
-}
+export default class Tasks extends React.Component<any, IState> {}

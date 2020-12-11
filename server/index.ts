@@ -1,4 +1,3 @@
-  
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import userRoutes from './routes/user.routes';
@@ -35,6 +34,6 @@ app.listen(port, () =>
 );
 
 //change it to your local mongodb server
-const db = 'mongodb://<mashinename>:27017,<mashinename>:27018,<mashinename>:27019/test?replicaSet=rs';
+const db = 'mongodb+srv://dba:uSw0yoB02b65GxHC@cluster0.n48sc.mongodb.net/test?retryWrites=true&w=majority&replicaSet=rs';
 
 connect({db});
