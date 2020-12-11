@@ -67,6 +67,20 @@ export default class EventRegistrationController {
         }
     }
 
+    public async DeleteEventRegistrationById(req: Request, res: Response): Promise<void> {
+        const params = req.params as Pick<IEventRegistration, "id">
+
+        try {
+            const success: IEventRegistration = await EventRegistration.findByIdAndRemove(params.id);
+            if (!success) {
+                res.status(404).send('No registration found');
+            }
+            res.status(200).json({ success })
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    }
+
     public async SetUserConfirmationOnEventById(req: Request, res: Response): Promise<void> {
         const registration = req.body as Pick<
             IEventRegistration,

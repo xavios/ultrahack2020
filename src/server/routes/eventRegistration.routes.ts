@@ -19,4 +19,7 @@ router.route('/deleteuserregistration/:id').delete(eventRegistrationController.D
 // Delete one user registration by id
 router.route('/setuserconfirmation').post(eventRegistrationController.SetUserConfirmationOnEventById);
 
+// Delete one event registration by id
+router.route('/deleteeventregistration/:id').delete(eventRegistrationController.DeleteEventRegistrationById);
+
 export default router;
