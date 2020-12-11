@@ -1,3 +1,4 @@
+require('dotenv').config()
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import userRoutes from './routes/user.routes';
@@ -10,7 +11,7 @@ import bodyParser from 'body-parser';
 
 const app: Express = express();
 
-const port: string | number = process.env.PORT || 4000;
+const port: string | number = process.env.BACKEND_PORT;
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -33,7 +34,6 @@ app.listen(port, () =>
   console.log(`Application started successfully on port ${port}.`)
 );
 
-//change it to your local mongodb server
-const db = 'mongodb+srv://dba:uSw0yoB02b65GxHC@cluster0.n48sc.mongodb.net/test?retryWrites=true&w=majority&replicaSet=rs';
+const db = process.env.MONGO_CONNECTION_STRING
 
 connect({db});
