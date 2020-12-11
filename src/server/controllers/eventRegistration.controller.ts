@@ -29,12 +29,11 @@ export default class EventRegistrationController {
         const params = req.params as Pick<IEventRegistration, "id">;
 
         try {
-            const registrations: IEventRegistration[] = await EventRegistration.find({ userId: params.id }).populate("eventId");
+            const registrations: IEventRegistration[] = await EventRegistration.find({ userId: params.id });
             if (!registrations) {
                 res.status(404).send('No registration found');
             }
-            let response = CreateUserRegistrationsResponse(registrations);
-            res.status(200).json(response);
+            res.status(200).json({ registrations });
         } catch (error) {
             res.status(500).send(error);
         }
@@ -44,12 +43,11 @@ export default class EventRegistrationController {
         const params = req.params as Pick<IEventRegistration, "id">;
 
         try {
-            const registrations: IEventRegistration[] = await EventRegistration.find({ eventId: params.id }).populate("userId");
+            const registrations: IEventRegistration[] = await EventRegistration.find({ eventId: params.id });
             if (!registrations) {
                 res.status(404).send('No registration found');
             }
-            let response = CreateEventRegistrationsResponse(registrations);
-            res.status(200).json(response);
+            res.status(200).json({ registrations });
         } catch (error) {
             res.status(500).send(error);
         }
