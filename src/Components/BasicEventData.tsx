@@ -150,22 +150,7 @@ const BasicEventData: FC<BasicEventDataProps> = (props): ReactElement => {
             }}
           />
         </div>
-      </div>
-
-      <div className="form-group row">
-        <label className="col-sm-2 col-form-label">Recommended skills</label>
-        <div className="col-sm-10">
-          <input
-            type="text"
-            className="form-control"
-            id="recommendedSkills"
-            value={state.recommendedSkills}
-            onChange={(e) => {
-              setState({ ...state, recommendedSkills: e.target.value });
-            }}
-          />
-        </div>
-      </div>
+      </div>      
 
       <div className="btn-toolbar justify-content-between">
         <button

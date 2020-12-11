@@ -1,5 +1,6 @@
 import React, { FC, ReactElement } from "react";
 import { NavbarConstants } from "./../NavbarConstants";
+import logo from "../unicef_logo-1.svg";
 
 type NavbarProps = {
   selectedItem: string;
@@ -8,12 +9,15 @@ type NavbarProps = {
 
 const Navbar: FC<NavbarProps> = (props): ReactElement => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light mb-3">
       <span
         className="navbar-brand"
         onClick={() => props.onClick(NavbarConstants.home)}
       >
-        {NavbarConstants.home}
+        <span className="navbar-brand" 
+              onClick={() => props.onClick(NavbarConstants.home)}>
+          <img src={logo} width="120" />
+        </span>
       </span>
       <button
         className="navbar-toggler"

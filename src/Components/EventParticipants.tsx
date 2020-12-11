@@ -90,8 +90,8 @@ const EventParticipants: FC<EventParticipantsProps> = (props): ReactElement => {
     <div>
       <div className="row">
         <div className="col-sm-4">
-          <h3>Available users</h3>
           <ul className="list-group">
+            <li className="list-group-item list-group-item-primary">Available users</li>
             {state.availableUsers.map((user) => {
               return (
                 <li
@@ -116,8 +116,8 @@ const EventParticipants: FC<EventParticipantsProps> = (props): ReactElement => {
         </div>
 
         <div className="col-sm-4">
-          <h3>Registered users</h3>
           <ul className="list-group">
+            <li className="list-group-item list-group-item-warning">Registered users</li>
             {state.registeredUsers.map((user) => {
               return (
                 <li
@@ -142,8 +142,8 @@ const EventParticipants: FC<EventParticipantsProps> = (props): ReactElement => {
         </div>
 
         <div className="col-sm-4">
-          <h3>Confirmed users</h3>
           <ul className="list-group">
+            <li className="list-group-item list-group-item-success">Confirmed users</li>
             {state.confirmedUsers.map((user) => {
               return (
                 <li
