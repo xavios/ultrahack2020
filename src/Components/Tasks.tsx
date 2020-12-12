@@ -19,7 +19,7 @@ const Tasks : FC<TaskDetailProps> = (props): ReactElement => {
             <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
                     <li className={state.selectedTab === "basic" ? "breadcrumb-item breadcrumb-selected" : "breadcrumb-item"} 
-                        onClick={() => onBreadCrumbClick("basic")}>Tasks information</li>
+                        onClick={() => onBreadCrumbClick("basic")}>Task list</li>
                     <li className={state.selectedTab === "participants" ? "breadcrumb-item breadcrumb-selected" : "breadcrumb-item"} 
                         onClick={() => onBreadCrumbClick("participants")}>Manage participants</li>
                 </ol>
