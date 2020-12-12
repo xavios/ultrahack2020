@@ -11,6 +11,7 @@ import { NavbarConstants } from "./NavbarConstants";
 import UserApiClient from "./Api/UserApiClient";
 import Login from "./Components/Login";
 import { Cookies } from "react-cookie";
+import MyTasks from "./Components/MyTasks";
 
 interface IState {
   selectedNavbarItem: string;
@@ -91,6 +92,9 @@ export default class App extends React.Component<any, IState> {
         {this.state.selectedNavbarItem === NavbarConstants.tasks && <Tasks />}
         {this.state.selectedNavbarItem === NavbarConstants.myEvents && (
           <MyEvents userId={this.state.userId} />
+        )}
+        {this.state.selectedNavbarItem === NavbarConstants.myEvents && (
+          <MyTasks userId={this.state.userId} />
         )}
       </div>
     );
