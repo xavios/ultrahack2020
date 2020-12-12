@@ -1,7 +1,9 @@
 export class NavbarConstants {
     static home = "Home";
-    static calendar = "Calendar";
+    static calendar = "Event Calendar";
     static myProfile = "My Profile";
     static registration = "Registration";
-    static tasks = "Tasks";
+    static tasks = "Task list";
+    static myEvents = "My Events";
+    static myTasks = "My Tasks";
 }

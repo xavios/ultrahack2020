@@ -47,6 +47,42 @@ const Navbar: FC<NavbarProps> = (props): ReactElement => {
           <li className="nav-item">
             <span
               className={
+                props.selectedItem === NavbarConstants.tasks
+                  ? "nav-link active"
+                  : "nav-link"
+              }
+              onClick={() => props.onClick(NavbarConstants.tasks)}
+            >
+              {NavbarConstants.tasks}
+            </span>
+          </li>
+          <li className="nav-item">
+            <span
+              className={
+                props.selectedItem === NavbarConstants.myEvents
+                  ? "nav-link active"
+                  : "nav-link"
+              }
+              onClick={() => props.onClick(NavbarConstants.myEvents)}
+            >
+              {NavbarConstants.myEvents}
+            </span>
+          </li>
+          <li className="nav-item">
+            <span
+              className={
+                props.selectedItem === NavbarConstants.myTasks
+                  ? "nav-link active"
+                  : "nav-link"
+              }
+              onClick={() => props.onClick(NavbarConstants.myTasks)}
+            >
+              {NavbarConstants.myTasks}
+            </span>
+          </li>
+          <li className="nav-item">
+            <span
+              className={
                 props.selectedItem === NavbarConstants.myProfile
                   ? "nav-link active"
                   : "nav-link"
@@ -67,19 +103,7 @@ const Navbar: FC<NavbarProps> = (props): ReactElement => {
             >
               {NavbarConstants.registration}
             </span>
-          </li>
-          <li className="nav-item">
-            <span
-              className={
-                props.selectedItem === NavbarConstants.tasks
-                  ? "nav-link active"
-                  : "nav-link"
-              }
-              onClick={() => props.onClick(NavbarConstants.tasks)}
-            >
-              {NavbarConstants.tasks}
-            </span>
-          </li>
+          </li>          
         </ul>
       </div>
     </nav>
