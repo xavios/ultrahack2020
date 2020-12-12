@@ -9,6 +9,7 @@ import taskRegistrationRoutes from "./routes/taskRegistration.routes";
 import connect from "./connect";
 import bodyParser from "body-parser";
 import path from "path";
+import { VerifyToken } from "./middlewares/authjwt";
 
 const app: Express = express();
 
@@ -28,10 +29,10 @@ app.use(bodyParser.json());
 
 app.use(cors());
 app.use("/users", userRoutes);
-app.use("/events", eventRoutes);
-app.use("/tasks", taskRoutes);
-app.use("/eventregistrations", eventRegistrationRoutes);
-app.use("/taskregistrations", taskRegistrationRoutes);
+app.use("/events", [VerifyToken, eventRoutes]);
+app.use("/tasks", [VerifyToken, taskRoutes]);
+app.use("/eventregistrations", [VerifyToken, eventRegistrationRoutes]);
+app.use("/taskregistrations", [VerifyToken, taskRegistrationRoutes]);
 
 app.use(express.static(path.join(__dirname, "../build")));
 app.get("*", function (req, resp) {

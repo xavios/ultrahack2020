@@ -2,14 +2,14 @@ import jwt from "jsonwebtoken";
 import { oauthSecret } from "./../configuration/auth.config";
 import User, { IUser, UserType } from "../models/user.model";
 
-export const VerifyToken = (res: any, req: any, next: any) => {
-  let token: any = res.headers["x-access-token"];
+export const VerifyToken = (req: any, res: any, next: any) => {
+  let token: any = req.headers["x-access-token"];
 
   if (!token) {
     return res.status(403).send({ message: "No auth token provided!" });
   }
 
-  jwt.verify(token, oauthSecret, (err, decoded) => {
+  jwt.verify(token, oauthSecret, (err: any, decoded: any) => {
     if (err) {
       return res.status(401).send({ message: "Unauthorized!" });
     }
@@ -19,7 +19,7 @@ export const VerifyToken = (res: any, req: any, next: any) => {
   });
 };
 
-export const isAdmin = async (req, res, next) => {
+export const isAdmin = async (req: any, res: any, next: any) => {
   const user: IUser = await User.findById(req.userId).exec((err, user) => {
     if (err) {
       res.status(500).send({ message: err });

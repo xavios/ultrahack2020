@@ -1,25 +1,26 @@
 import { Router } from "express";
 import UserController from "../controllers/user.controller";
 import { SignIn } from "../controllers/auth.controller";
+import { VerifyToken } from "../middlewares/authjwt";
 const router = new (Router as any)();
 
 const userController = new UserController();
 
 // Get all Events
-router.route("/getusers").get(userController.GetAllUsers);
+router.get("/getusers", [VerifyToken, userController.GetAllUsers]);
 
 // Get one user by id
-router.route("/getuser/:id").get(userController.GetUserById);
-
-// Add a new user
-router.route("/createuser").post(userController.CreateUser);
+router.get("/getuser/:id", [VerifyToken, userController.GetUserById]);
 
 // Update one user
-router.route("/updateuser").post(userController.UpdateUser);
+router.post("/updateuser", [VerifyToken, userController.UpdateUser]);
 
 // Delete one user by id
-router.route("/deleteuser/:id").delete(userController.DeleteUserById);
+router.delete("/deleteuser/:id", [VerifyToken, userController.DeleteUserById]);
 
+// Register a new user
+router.route("/createuser").post(userController.CreateUser);
+// Get token for user
 router.route("/singin").post(SignIn);
 
 export default router;
