@@ -1,5 +1,5 @@
 export interface DateRange {
-    id: string,
+    _id?: string,
     from:  Date,
     to:  Date 
 }

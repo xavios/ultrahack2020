@@ -12,4 +12,7 @@ export interface IUser {
     availability: Array<DateRange>;
     phone: string;
     location: string;
+    profession: string;
+    languages: string;
+    newsletter: boolean;
 }

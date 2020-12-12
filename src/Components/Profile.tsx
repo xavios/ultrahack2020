@@ -7,6 +7,7 @@ import { DateRange } from "../Models/DateRange";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Guid } from "guid-typescript";
+import { UserType } from "src/Models/UserType";
 
 type ProfileProps = {
     userId: string
@@ -15,13 +16,19 @@ type ProfileProps = {
 const Profile : FC<ProfileProps> = (props): ReactElement => { 
     const userApiClient = new UserApiClient();
     const [state, setState] = useState({
+        _id: props.userId,
         firstName: "",
         lastName: "",
         email: "",
         phone: "",
         location: "",
         availability: Array<DateRange>(),
-        skills: ""
+        profession: "",
+        languages: "",
+        skills: "",
+        newsletter: false,
+        password: "",
+        userType: UserType.volunteer
     });
 
     useEffect(() => {
@@ -32,14 +39,12 @@ const Profile : FC<ProfileProps> = (props): ReactElement => {
     }, []);
 
     const loadData = async () => {
-        const user = await userApiClient.get(props.userId);
-
+        const user : IUser = await userApiClient.get(props.userId);
         setState(user);
     }
 
     const onAddDateClick = () =>{
         const newItem : DateRange = {
-            id: Guid.create().toString(),
             from: new Date(),
             to: new Date()
         } 
@@ -47,11 +52,16 @@ const Profile : FC<ProfileProps> = (props): ReactElement => {
         setState({...state, availability: [...state.availability, newItem]});
     }
 
-    const onDeleteDateClick = (id: string) => {
-        const newAbs = state.availability.filter(a => a.id !== id);
+    const onDeleteDateClick = (id?: string) => {
+        const newAbs = state.availability.filter(a => a._id !== id);
         setState({...state, availability: newAbs});
     }
     
+    const onSaveClick = async () => {
+        await userApiClient.update(state);
+        await loadData();
+    }
+
     return (
         <div className="container">
             <form className="text-left">
@@ -109,15 +119,25 @@ const Profile : FC<ProfileProps> = (props): ReactElement => {
 
                 <h4>Availability</h4>
 
+                <div className="form-check">
+                    <input type="checkbox" className="form-check-input" id="newsletter" />
+                    <label className="form-check-label" 
+                        htmlFor="exampleCheck1"                        
+                        defaultChecked={state.newsletter}
+                        onClick={(e) => {
+                            setState({...state, newsletter: !state.newsletter})
+                        }}>Subscribe me to Unicef newsletter about new events & tasks</label>
+                </div>
+
                 {state.availability.map((a: DateRange) => {
                     return(
-                        <div className="form-group row mt-3 ml-0">
+                        <div className="form-group row mt-3 ml-0" key={a._id}>
                             <label htmlFor="phone" className="col-form-label mr-3">From</label>
                             <div className="mr-5 datePicker">
                                 <DatePicker
                                     selected={a.from}
                                     onChange={(date: any) => {
-                                        const currentRange = state.availability.find(f => f.id === a.id);
+                                        const currentRange = state.availability.find(f => f._id === a._id);
                                         if (currentRange === undefined) {
                                             return;
                                         }
@@ -132,7 +152,7 @@ const Profile : FC<ProfileProps> = (props): ReactElement => {
                                 <DatePicker                                    
                                     selected={a.to}
                                     onChange={(date: any) => {
-                                        const currentRange = state.availability.find(f => f.id === a.id);
+                                        const currentRange = state.availability.find(f => f._id === a._id);
                                         if (currentRange === undefined) {
                                             return;
                                         }
@@ -142,17 +162,37 @@ const Profile : FC<ProfileProps> = (props): ReactElement => {
                                 />
                             </div>
 
-                            <button type="button" className="ml-5 btn btn-outline-danger" onClick={() => onDeleteDateClick(a.id)}>Delete</button>         
-                    </div>
-
-                    )
+                            <button type="button" className="ml-5 btn btn-outline-danger" onClick={() => onDeleteDateClick(a._id)}>Delete</button>         
+                    </div>)
                 })}  
 
-                <button type="button" className="btn btn-outline-primary" onClick={onAddDateClick}>Add availability</button>                
+                <button type="button" className="btn btn-outline-primary mb-3 mt-3" onClick={onAddDateClick}>Add availability</button>            
+
+                <h4>Skills</h4>    
+                <div className="form-group row">
+                    <label htmlFor="firstName" className="col-sm-2 col-form-label">Profession</label>
+                    <div className="col-sm-6">
+                        <input type="text" className="form-control" id="profession" value={state?.profession}
+                            onChange={(e) => {
+                                setState({...state, profession: e.target.value});
+                            }}/>
+                    </div>
+                </div>
+
+                <div className="form-group row">
+                    <label htmlFor="firstName" className="col-sm-2 col-form-label">Languages</label>
+                    <div className="col-sm-6">
+                        <input type="text" className="form-control" id="profession" value={state?.languages}
+                            onChange={(e) => {
+                                setState({...state, languages: e.target.value});
+                            }}/>
+                    </div>
+                </div>
             
             </form>
             <div className="row mt-5">
-                <button type="submit" className="btn btn-primary">Save changes</button>
+                <button type="submit" className="btn btn-primary"
+                onClick={onSaveClick}>Save changes</button>
             </div>
         </div>
     );
