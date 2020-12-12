@@ -1,34 +1,68 @@
-import { FC, ReactElement, useState } from "react";
-import Tasks from "./Tasks";
+import React, { FC, ReactElement, useEffect, useState } from "react";
+import configuration from "./../Api/Configuration";
+import { TaskViewModel } from "../Models/TaskViewModel";
+import TaskApiClient from "../Api/TaskApiClient";
+import { Status } from "../Models/Status";
+import { ITask } from "../Models/ITask";
 
-type TaskDetailProps = {
+class Volunteer {
+  FirstName: any;
+  LastName: any;
+  Email: any;
+  MobilePhone: any;
+  PrimaryMethodOfContact: any;
+  Password: any;
 }
 
-const TaskDetails : FC<TaskDetailProps> = (props): ReactElement => { 
+type ITaskViewState = {
+  selectedTask: TaskViewModel;
+  tasks: TaskViewModel[];
+};
+
+type ITasksProps = {
+};
+
+
+const TaskDetails: FC = (): ReactElement => {   
     const [state, setState] = useState({
-        task: props,
-        selectedTab: "basic",
-    })
+        selectedTask: undefined,
+        tasks: Array<TaskViewModel>()});
 
-    const onBreadCrumbClick = (selectedTab: string) => {
-        setState({ ...state, selectedTab: selectedTab});
+    const taskApiClient : TaskApiClient = new TaskApiClient();
+
+  useEffect(() => {
+    async function loadDataWrapper() {
+        const tasks = await taskApiClient.getAllTasks();
+        //setState({ tasks: tasks });
     }
+    loadDataWrapper();
+  }, []);
 
-    return (
-        <div>        
-            <nav aria-label="breadcrumb">
-                <ol className="breadcrumb">
-                    <li className={state.selectedTab === "basic" ? "breadcrumb-item breadcrumb-selected" : "breadcrumb-item"} 
-                        onClick={() => onBreadCrumbClick("basic")}>Tasks information</li>
-                    <li className={state.selectedTab === "participants" ? "breadcrumb-item breadcrumb-selected" : "breadcrumb-item"} 
-                        onClick={() => onBreadCrumbClick("participants")}>Manage participants</li>
-                </ol>
-            </nav>
-            { state.selectedTab === "basic" && <Tasks />}
-            {/* { state.selectedTab === "participants" && <EventParticipants event={props.task} onBackClick={props.onBackClick} />} */}
+  // const onAddTaskClick = () => {
+  //   setState({ selectedTask: {
+  //       _id: undefined,
+  //       name: "New Task",
+  //       deadLine: new Date("2020.12.06."),
+  //       status: Status.openForRegistration,
+  //       location: "Budapest",
+  //       capacity: 3,
+  //       description: "This is the latest unicef event",
+  //       requiredSkills: "speech",
+  //       recommendedSkills: "luck"
+  //   }})
 
-        </div>
-    );
+const onBackClick = () => {
+    //this.componentDidMount();
+}
+
+const onTaskClick = async (arg: any) => {
+    const taskId = arg.event.id;
+    //const task : ITask = await taskApiClient.get(taskId);
+    //setState({ selectedTask: task });
+}
+
+return( <div></div>); 
+//(<TaskDetails event={this.state.selectedTask} onBackClick={this.onBackClick} />); 
 }
 
 export default TaskDetails;
