@@ -93,7 +93,7 @@ export default class App extends React.Component<any, IState> {
         {this.state.selectedNavbarItem === NavbarConstants.myEvents && (
           <MyEvents userId={this.state.userId} />
         )}
-        {this.state.selectedNavbarItem === NavbarConstants.myEvents && (
+        {this.state.selectedNavbarItem === NavbarConstants.myTasks && (
           <MyTasks userId={this.state.userId} />
         )}
       </div>
