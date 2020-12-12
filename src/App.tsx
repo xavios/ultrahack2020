@@ -2,6 +2,7 @@ import React, { FC, ReactElement, useState } from "react";
 import "./App.css";
 import CalendarView from "./Components/CalendarView";
 import Home from "./Components/Home";
+import MyEvents from "./Components/MyEvents";
 import Navbar from "./Components/Navbar";
 import Profile from "./Components/Profile";
 import Registration from "./Components/Registration";
@@ -23,6 +24,7 @@ const App: FC = (): ReactElement => {
       {selectedNavbarItem === NavbarConstants.myProfile && <Profile />}
       {selectedNavbarItem === NavbarConstants.registration && <Registration />}
       {selectedNavbarItem === NavbarConstants.tasks && <Tasks />}
+      {selectedNavbarItem === NavbarConstants.myEvents && <MyEvents userId="5fd3e6d2003e8e0ec0f94273" />}
     </div>
   );
 };

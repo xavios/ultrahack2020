@@ -72,3 +72,11 @@
 .nav-item :hover {
   background-color: white;
 }
+
+.navbar-nav {
+  height: 6px;
+}
+
+.nav-link {
+  margin-right: 10px;
+}
