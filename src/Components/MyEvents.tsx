@@ -54,7 +54,7 @@ const MyEvents : FC<MyEventsProps> = (props): ReactElement => {
                 confirmed: reg.confirmed,
                 registrationId: reg._id
             }
-        })
+        });
 
         setState({
             ...state, 
@@ -62,7 +62,7 @@ const MyEvents : FC<MyEventsProps> = (props): ReactElement => {
         })
     }
 
-    const onStatusButtonClick = async (eventId?: string) => {
+    const onRemoveRegistrationClick = async (eventId?: string) => {
         if (eventId) {
             await eventRegistrationApiClient.delete(eventId);
             await loadData();
@@ -78,22 +78,26 @@ const MyEvents : FC<MyEventsProps> = (props): ReactElement => {
                     <th scope="col">Event name</th>
                     <th scope="col">Location</th>
                     <th scope="col">Status</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 {state.userEvents.map((e) => {
                     return <tr>
-                        <td>{e.startDate?.toString().split("T")[0]}</td>
-                        <td>{e.endDate?.toString().split("T")[0]}</td>
-                        <td>{e.name}</td>
-                        <td>{e.location}</td>
-                        <td>{e.confirmed ?
-                            <button type="button" className="btn btn-outline-success"
-                                onClick={() => onStatusButtonClick(e.registrationId)}>Confirmed</button>
+                        <td className="align-middle">{e.startDate?.toString().split("T")[0]}</td>
+                        <td className="align-middle">{e.endDate?.toString().split("T")[0]}</td>
+                        <td className="align-middle">{e.name}</td>
+                        <td className="align-middle">{e.location}</td>
+                        <td className="align-middle">{e.confirmed ?
+                            <span className="badge badge-success align-middle">Confirmed</span>                            
                             :
-                            <button type="button" className="btn btn-outline-warning"
-                                onClick={() => onStatusButtonClick(e.registrationId)}>Pending</button>
+                            <span className="badge badge-warning">Pending</span>                            
+
                          }
+                        </td>
+                        <td className="align-middle">
+                            <button type="button" className="btn btn-outline-danger"
+                                onClick={() => onRemoveRegistrationClick(e.registrationId)}>Delete registration</button>
                         </td>
                     </tr>
                 })}         

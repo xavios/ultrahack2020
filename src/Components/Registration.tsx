@@ -99,7 +99,7 @@ export default class Registration extends React.Component<any, IState> {
 
               <div className="form-group required">
                 <label htmlFor="lastName" className="control-label">
-                  First Name
+                  Last Name
                 </label>
                 <input
                   type="text"
