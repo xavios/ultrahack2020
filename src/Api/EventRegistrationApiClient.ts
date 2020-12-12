@@ -62,4 +62,18 @@ export default class EventRegistrationApiClient {
             }
         )
     }
+
+    public async getbyUserId(userId: string) : Promise<IEventRegistration[]> {
+        const response = await fetch(
+            `${Configuration.serviceBaseUrl}/eventregistrations/getuserregistrations/${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
+
+        const responseJson = await response.json();
+        return responseJson.registrations;
+    }
 }

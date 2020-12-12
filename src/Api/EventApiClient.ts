@@ -61,4 +61,14 @@ export default class EventApiClient {
         const responseJson = await response.json();
         console.log(responseJson)
     }
+
+    public async getEvents(): Promise<IEvent[]> {
+        const response = await fetch(
+            `${Configuration.serviceBaseUrl}/events/getevents`, {
+            method: "GET",
+        });
+
+        const responseJson = await response.json();
+        return responseJson.events; 
+    }
 }
