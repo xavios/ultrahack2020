@@ -1,4 +1,5 @@
-export interface DateRange extends Document {
-    from: { type: Date },
-    to: {type: Date }
+export interface DateRange {
+    id: string,
+    from:  Date,
+    to:  Date 
 }

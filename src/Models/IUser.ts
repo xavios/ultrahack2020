@@ -10,4 +10,6 @@ export interface IUser {
     userType: UserType;
     skills: string;
     availability: Array<DateRange>;
+    phone: string;
+    location: string;
 }

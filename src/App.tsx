@@ -16,15 +16,17 @@ const App: FC = (): ReactElement => {
     setNavbarItem(selectedItem);
   };
 
+  const userId = "5fd3e6d2003e8e0ec0f94273";
+
   return (
     <div className="App container">
       <Navbar selectedItem={selectedNavbarItem} onClick={handleClick} />
       {selectedNavbarItem === NavbarConstants.home && <Home />}
       {selectedNavbarItem === NavbarConstants.calendar && <CalendarView />}
-      {selectedNavbarItem === NavbarConstants.myProfile && <Profile />}
+      {selectedNavbarItem === NavbarConstants.myProfile && <Profile userId={userId} />}
       {selectedNavbarItem === NavbarConstants.registration && <Registration />}
       {selectedNavbarItem === NavbarConstants.tasks && <Tasks />}
-      {selectedNavbarItem === NavbarConstants.myEvents && <MyEvents userId="5fd3e6d2003e8e0ec0f94273" />}
+      {selectedNavbarItem === NavbarConstants.myEvents && <MyEvents userId={userId} />}
     </div>
   );
 };

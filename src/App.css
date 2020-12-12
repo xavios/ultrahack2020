@@ -80,3 +80,8 @@
 .nav-link {
   margin-right: 10px;
 }
+
+.datePicker {
+  margin-top: 5px;
+  max-width: 185px;;
+}

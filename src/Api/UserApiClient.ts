@@ -16,4 +16,19 @@ export default class UserApiClient {
 
         return responseJson.users;
     }
+
+    public async get(userId: string) : Promise<IUser> {
+        const response = await fetch(
+            `${Configuration.serviceBaseUrl}/users/getuser/${userId}`, {
+                method: 'GET',
+                headers:  {
+                    'Content-Type': 'application/json'
+                },
+            }
+        )
+
+        const responseJson =  await response.json();
+
+        return responseJson.user;
+    }
 }
