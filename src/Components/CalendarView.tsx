@@ -7,11 +7,11 @@ import interactionPlugin from "@fullcalendar/interaction";
 
 import EventApiClient from "../Api/EventApiClient";
 import { IEvent } from "./../Models/IEvent";
-import { EventStatus } from "./../Models/EventStatus";
 import { EventViewModel } from "./../Models/EventViewModel";
 import Configuration from "../Api/Configuration";
 import EventDetails from "./EventDetails";
 import { Status } from "src/Models/Status";
+import { Cookies } from "react-cookie";
 
 interface ICalendarViewProps {}
 
@@ -24,6 +24,7 @@ export default class CalendarView extends React.Component<
   ICalendarViewProps,
   ICalendarViewState
 > {
+  cookies = new Cookies();
   private eventApiClient: EventApiClient;
 
   constructor(props: ICalendarViewProps) {
@@ -38,6 +39,9 @@ export default class CalendarView extends React.Component<
   componentDidMount() {
     fetch(`${Configuration.serviceBaseUrl}/events/getevents`, {
       method: "GET",
+      headers: {
+        "x-access-token": this.cookies.get("x-access-token") as string,
+      },
     })
       .then((resp) => resp.json())
       .then((response) => {

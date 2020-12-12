@@ -8,27 +8,91 @@ import Profile from "./Components/Profile";
 import Registration from "./Components/Registration";
 import Tasks from "./Components/Tasks";
 import { NavbarConstants } from "./NavbarConstants";
+import UserApiClient from "./Api/UserApiClient";
+import Login from "./Components/Login";
+import { Cookies } from "react-cookie";
 
-const App: FC = (): ReactElement => {
-  const [selectedNavbarItem, setNavbarItem] = useState(NavbarConstants.home);
+interface IState {
+  selectedNavbarItem: string;
+  userIsLoggedIn: boolean;
+  userId: string;
+}
 
-  const handleClick = (selectedItem: string) => {
-    setNavbarItem(selectedItem);
-  };
+export default class App extends React.Component<any, IState> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      selectedNavbarItem: NavbarConstants.home,
+      userIsLoggedIn: false,
+      userId: "",
+    };
+    this.handleClick = this.handleClick.bind(this);
+    this.logout = this.logout.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+  }
 
-  const userId = "5fd3e6d2003e8e0ec0f94273";
+  async componentDidMount() {
+    let userApiClient = new UserApiClient();
+    const userIsLoggedIn = await userApiClient.userIsLoggedIn();
+    this.setState({
+      selectedNavbarItem: this.state.selectedNavbarItem,
+      userIsLoggedIn: userIsLoggedIn,
+      userId: this.state.userId,
+    });
+  }
 
-  return (
-    <div className="App container">
-      <Navbar selectedItem={selectedNavbarItem} onClick={handleClick} />
-      {selectedNavbarItem === NavbarConstants.home && <Home />}
-      {selectedNavbarItem === NavbarConstants.calendar && <CalendarView />}
-      {selectedNavbarItem === NavbarConstants.myProfile && <Profile userId={userId} />}
-      {selectedNavbarItem === NavbarConstants.registration && <Registration />}
-      {selectedNavbarItem === NavbarConstants.tasks && <Tasks />}
-      {selectedNavbarItem === NavbarConstants.myEvents && <MyEvents userId={userId} />}
-    </div>
-  );
-};
+  handleClick(selectedItem: string): void {
+    this.setState({
+      selectedNavbarItem: selectedItem,
+      userIsLoggedIn: this.state.userIsLoggedIn,
+    });
+  }
 
-export default App;
+  handleLogin(userid: string) {
+    this.setState({
+      selectedNavbarItem: NavbarConstants.home,
+      userIsLoggedIn: true,
+      userId: userid,
+    });
+  }
+
+  logout() {
+    const cookies = new Cookies();
+    cookies.remove("x-access-token");
+    this.setState({
+      selectedNavbarItem: NavbarConstants.login,
+      userIsLoggedIn: false,
+      userId: "",
+    });
+  }
+
+  render() {
+    return (
+      <div className="App container">
+        <Navbar
+          selectedItem={this.state.selectedNavbarItem}
+          onClick={this.handleClick}
+          userIsLoggedIn={this.state.userIsLoggedIn}
+          logout={this.logout}
+        />
+        {this.state.selectedNavbarItem === NavbarConstants.home && <Home />}
+        {this.state.selectedNavbarItem === NavbarConstants.calendar && (
+          <CalendarView />
+        )}
+        {this.state.selectedNavbarItem === NavbarConstants.myProfile && (
+          <Profile userId={this.state.userId} />
+        )}
+        {this.state.selectedNavbarItem === NavbarConstants.registration && (
+          <Registration />
+        )}
+        {this.state.selectedNavbarItem === NavbarConstants.login && (
+          <Login login={this.handleLogin} />
+        )}
+        {this.state.selectedNavbarItem === NavbarConstants.tasks && <Tasks />}
+        {this.state.selectedNavbarItem === NavbarConstants.myEvents && (
+          <MyEvents userId={this.state.userId} />
+        )}
+      </div>
+    );
+  }
+}

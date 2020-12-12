@@ -18,6 +18,9 @@ router.post("/updateuser", [VerifyToken, userController.UpdateUser]);
 // Delete one user by id
 router.delete("/deleteuser/:id", [VerifyToken, userController.DeleteUserById]);
 
+// is logged in?
+router.get("/isloggedin", [VerifyToken, userController.IsLoggedIn]);
+
 // Register a new user
 router.route("/createuser").post(userController.CreateUser);
 // Get token for user
