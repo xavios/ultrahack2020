@@ -12,6 +12,7 @@ import UserApiClient from "./Api/UserApiClient";
 import Login from "./Components/Login";
 import { Cookies } from "react-cookie";
 import MyTasks from "./Components/MyTasks";
+import TaskView from "./Components/TaskView";
 
 interface IState {
   selectedNavbarItem: string;
@@ -89,7 +90,7 @@ export default class App extends React.Component<any, IState> {
         {this.state.selectedNavbarItem === NavbarConstants.login && (
           <Login login={this.handleLogin} />
         )}
-        {this.state.selectedNavbarItem === NavbarConstants.tasks && <Tasks />}
+        {this.state.selectedNavbarItem === NavbarConstants.tasks && <TaskView />}
         {this.state.selectedNavbarItem === NavbarConstants.myEvents && (
           <MyEvents userId={this.state.userId} />
         )}

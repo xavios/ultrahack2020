@@ -39,7 +39,7 @@ export default class TaskApiClient {
 
   public async getAllTasks(): Promise<Array<ITask>> {
     const response = await fetch(
-      `${Configuration.serviceBaseUrl}/tasks/gettask`,
+      `${Configuration.serviceBaseUrl}/tasks/gettasks`,
       {
         method: "GET",
         headers: {
