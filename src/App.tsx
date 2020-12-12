@@ -81,7 +81,7 @@ export default class App extends React.Component<any, IState> {
           <CalendarView />
         )}
         {this.state.selectedNavbarItem === NavbarConstants.myProfile && (
-          <Profile userId={this.state.userId} />
+          <Profile userId={this.state.userId} logout={this.logout} />
         )}
         {this.state.selectedNavbarItem === NavbarConstants.registration && (
           <Registration />

@@ -9,6 +9,7 @@ import { UserType } from "src/Models/UserType";
 
 type ProfileProps = {
   userId: string;
+  logout: () => void;
 };
 
 const Profile: FC<ProfileProps> = (props): ReactElement => {
@@ -58,6 +59,18 @@ const Profile: FC<ProfileProps> = (props): ReactElement => {
   const onSaveClick = async () => {
     await userApiClient.update(state);
     await loadData();
+  };
+
+  const onDeleteClick = async () => {
+    if (
+      window.confirm(
+        "Are you completly sure that you want to delete your profile? " +
+          "This action cannot be undone!"
+      )
+    ) {
+      await userApiClient.delete(props.userId);
+      props.logout();
+    }
   };
 
   return (
@@ -264,6 +277,25 @@ const Profile: FC<ProfileProps> = (props): ReactElement => {
       <div className="row mt-5">
         <button type="submit" className="btn btn-primary" onClick={onSaveClick}>
           Save changes
+        </button>
+      </div>
+
+      <div
+        className="row mt-5"
+        style={{
+          maxWidth: "800px",
+          textAlign: "left",
+        }}
+      >
+        You can decide to remove your profile from the Volunteer Management
+        System. With clicking the bellow button your profile will be deleted for
+        good. Use it wisely!
+        <button
+          type="submit"
+          className="btn btn-danger"
+          onClick={onDeleteClick}
+        >
+          Delete Profile
         </button>
       </div>
     </div>

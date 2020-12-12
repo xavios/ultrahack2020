@@ -125,11 +125,11 @@ export default class Registration extends React.Component<any, IState> {
 
               <div className="form-group required">
                 <label htmlFor="mobilePhone" className="control-label">
-                  Mobile Phone Number (example: 0630-123-4567)
+                  Mobile Phone Number (example: 06/30-123-4567)
                 </label>
                 <input
                   type="tel"
-                  pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}"
+                  pattern="[0-9]{2}\/[0-9]{2}-[0-9]{3}-[0-9]{4}"
                   className="form-control"
                   id="mobilePhone"
                   onChange={this.handleInputChange}
@@ -173,7 +173,14 @@ export default class Registration extends React.Component<any, IState> {
                   required
                 ></input>
                 <label className="form-check-label" htmlFor="exampleCheck1">
-                  Do you accept our terms & conditions?
+                  Do you understand and accept our{" "}
+                  <a
+                    href="https://unicef.hu/adatvedelmi-tajekoztato"
+                    target="_blank"
+                  >
+                    terms & conditions
+                  </a>
+                  ?
                 </label>
               </div>
               <button type="submit" className="btn btn-primary">
