@@ -97,6 +97,19 @@ export default class UserApiClient {
     return user;
   }
 
+  public async delete(userId: string): Promise<void> {
+    const response = await fetch(
+      `${Configuration.serviceBaseUrl}/users/deleteuser/${userId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": this.cookies.get("x-access-token") as string,
+        },
+      }
+    );
+  }
+
   public async update(user: IUser): Promise<IUser> {
     const response = await fetch(
       `${Configuration.serviceBaseUrl}/users/updateuser`,
